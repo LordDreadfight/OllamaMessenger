@@ -1,0 +1,18 @@
+{
+    "Auto_generated": "This file is auto-generated. Any extra tags or formatting will be lost",
+    "target_sets": [
+        {
+            "cmake_config": "",
+            "directory": "",
+            "loaded_via_cmake": false,
+            "name": "Target Set",
+            "targets": [
+                {
+                    "build_cmd": "%d",
+                    "name": "build",
+                    "run_cmd": "g++ -std=c++17 -o myprogram %f\n"
+                }
+            ]
+        }
+    ]
+}
