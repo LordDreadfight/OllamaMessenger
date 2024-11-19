@@ -1,21 +1,21 @@
-#include <iostream>
-#include "ollama.hpp"
 #include "pbui/Button.h"
-#include "pbui/Window.h"
 #include "pbui/UIElement.h"
+#include "pbui/Window.h"
+#include <iostream>
 
-
-int main(int argc, char* argv[]) {
-
-    Window window("Basic UI Library", 800, 600);
-
-    Button button(100, 100, 150, 50, "Click Me");
+int main(int argc, char* argv[])
+{
+    Window window("Ollama Messenger", 1280, 720);
+    Button button(10, 10, 150, 50, "Click Me");
     button.setOnClick([]() {
         printf("Button Clicked!\n");
     });
-
+    Button button2(10, 70, 150, 50, "me2");
+    button2.setOnClick([]() {
+        printf("Button2 clicked \n");
+    });
     window.addElement(&button);
+    window.addElement(&button2);
     window.mainLoop();
-
     return 0;
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include "UIElement.h"
 #include <functional>
 #include <string>
