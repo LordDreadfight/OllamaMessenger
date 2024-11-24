@@ -2,6 +2,9 @@
 #include "UIElement.h"
 #include <functional>
 #include <string>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
 
 struct Button : public UIElement {
     Button(int x, int y, int width, int height, const std::string& text);
@@ -12,6 +15,5 @@ struct Button : public UIElement {
     std::string text;
     std::function<void()> onClick;
     bool isHovered;
-}
-
-
+    TTF_Font* font;
+};

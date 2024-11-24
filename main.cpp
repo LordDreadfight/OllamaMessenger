@@ -2,6 +2,8 @@
 #include "pbui/UIElement.h"
 #include "pbui/Window.h"
 #include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 int main(int argc, char* argv[])
 {
@@ -14,8 +16,11 @@ int main(int argc, char* argv[])
     button2.setOnClick([]() {
         printf("Button2 clicked \n");
     });
+
     window.addElement(&button);
     window.addElement(&button2);
     window.mainLoop();
+    TTF_Quit();
+    SDL_Quit();
     return 0;
 }
