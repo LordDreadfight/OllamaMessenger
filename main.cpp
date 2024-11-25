@@ -5,13 +5,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "pbollama/OllamaFunction.h"
+#include "pbui/Combobox.h"
 
 int main(int argc, char* argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
     Window window("Ollama Messenger", 1280, 720);
-    Button button(10, 10, 150, 50, "Click Me");
+    Button button(10, 10, 150, 50, "Start ollama Server");
     button.setOnClick([]() {
         startOllamaService();
     });
@@ -19,9 +20,12 @@ int main(int argc, char* argv[])
     button2.setOnClick([]() {
 
     });
+    Combobox combi(270, 10, 250, 50, "boxl");
+    combi.addItems({"Item 1", "Item 2", "Item 3"});
 
     window.addElement(&button);
     window.addElement(&button2);
+    window.addElement(&combi);
     window.mainLoop();
     TTF_Quit();
     SDL_Quit();

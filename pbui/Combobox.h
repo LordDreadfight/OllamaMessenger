@@ -12,10 +12,16 @@ struct Combobox : public UIElement {
     TTF_Font* font;
     std::vector<std::string>* dropdownList;
     bool dropdownListVisible;
+    std::function<void(const std::string&)> onClickCallback;
 
     Combobox(int x, int y, int width, int height, const std::string& text);
     void draw(SDL_Renderer* renderer) override;
     void handleEvent(const SDL_Event& event) override;
     void addItem(const std::string& item);
-    void removeItem(const std::string& item);
+    void addItems(const std::vector<std::string>& items);
+    void clearItems();
+    void setOnClick(std::function<void(const std::string&)> callback);
+
+    
+
 };
