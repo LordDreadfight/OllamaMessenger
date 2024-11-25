@@ -55,6 +55,7 @@
                 "-lSDL2",
                 "-lSDL2_ttf",
                 "${workspaceFolder}/pbui/Button.cpp",
+                "${workspaceFolder}/pbollama/OllamaFunction.cpp",
                 "${workspaceFolder}/pbui/Window.cpp"
             ],
             "group": {

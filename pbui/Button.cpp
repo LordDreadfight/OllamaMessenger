@@ -3,6 +3,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
 
+
 Button::Button(int x, int y, int width, int height, const std::string& text)
     : x(x), y(y), width(width), height(height), text(text), isHovered(false)
 {

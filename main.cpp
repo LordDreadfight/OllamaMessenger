@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "pbollama/OllamaFunction.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,11 +13,11 @@ int main(int argc, char* argv[])
     Window window("Ollama Messenger", 1280, 720);
     Button button(10, 10, 150, 50, "Click Me");
     button.setOnClick([]() {
-        printf("Button Clicked!\n");
+        startOllamaService();
     });
     Button button2(10, 70, 150, 50, "me2");
     button2.setOnClick([]() {
-        printf("Button2 clicked \n");
+
     });
 
     window.addElement(&button);
