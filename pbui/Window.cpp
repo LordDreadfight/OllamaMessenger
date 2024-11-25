@@ -3,7 +3,6 @@
 
 Window::Window(const char* title, int width, int height)
 {
-    SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     running = true;

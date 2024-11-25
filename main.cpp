@@ -7,6 +7,8 @@
 
 int main(int argc, char* argv[])
 {
+    SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
     Window window("Ollama Messenger", 1280, 720);
     Button button(10, 10, 150, 50, "Click Me");
     button.setOnClick([]() {

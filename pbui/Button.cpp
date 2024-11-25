@@ -7,7 +7,7 @@ Button::Button(int x, int y, int width, int height, const std::string& text)
     : x(x), y(y), width(width), height(height), text(text), isHovered(false)
 {
     onClick = []() {}; // Default empty callback
-    font = TTF_OpenFont("Ubuntu-Regular.ttf", 24);
+    font = TTF_OpenFont("Ubuntu-Regular.ttf", 14);
     if (!font) {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
     }
