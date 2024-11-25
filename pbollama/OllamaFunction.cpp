@@ -53,3 +53,4 @@ int loadOllamaModel( std::string& modelname){
 int stopOllamaService(){
     return system("killall ollama");
 };
+
