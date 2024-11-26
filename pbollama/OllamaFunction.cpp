@@ -1,7 +1,6 @@
 #include "OllamaFunction.h"
 #include "ollama.hpp"
 #include "../json.hpp"
-#include <fstream>
 
 using json = nlohmann::json;
 

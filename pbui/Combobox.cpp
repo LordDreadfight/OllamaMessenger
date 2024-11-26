@@ -1,116 +1,143 @@
 #include "Combobox.h"
 #include <iostream>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL.h>
 
-Combobox::Combobox(int x, int y, int width, int height, const std::string& text)
-    : x(x), y(y), width(width), height(height), text(text), isHovered(false)
+Combobox::Combobox(int x, int y, int width, int height, const std::vector<std::string> &options)
+    : x(x), y(y), width(width), height(height), options(options), selectedIndex(0), isOpen(false), font(nullptr)
 {
+    // Load the font
     font = TTF_OpenFont("Ubuntu-Regular.ttf", 14);
-    if (!font) {
+    if (!font)
+    {
         std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
     }
-    // Initialize dropdown list
-    dropdownList = new std::vector<std::string>();
-    dropdownListVisible = false;
-    onClick = [](const std::string& item) {}; // Default empty callback
 }
 
-void Combobox::draw(SDL_Renderer* renderer)
+void Combobox::setOnSelectionChange(std::function<void(const std::string &)> callback)
 {
-    SDL_Rect rect = { x, y, width, height };
-    SDL_Color comboboxColor = isHovered ? SDL_Color{ 112, 220, 112, 255 } : SDL_Color{ 47, 211, 71, 255 };
-    SDL_SetRenderDrawColor(renderer, comboboxColor.r, comboboxColor.g, comboboxColor.b, comboboxColor.a);
-    SDL_RenderFillRect(renderer, &rect);
+    onSelectionChange = callback;
+}
 
-    // Draw text
-    if (font) {
-        SDL_Color textColor = { 255, 255, 255, 255 }; // White color for the text
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-        if (textSurface != nullptr) {
-            SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+void Combobox::draw(SDL_Renderer *renderer)
+{
+    // Draw the main rectangle (closed combo box)
+    SDL_Rect mainRect = {x, y, width, height};
+    SDL_Color bgColor = {47, 211, 71, 255}; // Button background color
+    SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+    SDL_RenderFillRect(renderer, &mainRect);
+
+    // Draw the dropdown indicator (filled triangle)
+    SDL_Color triangleColor = {255, 255, 255, 255}; // White color for the triangle
+    SDL_SetRenderDrawColor(renderer, triangleColor.r, triangleColor.g, triangleColor.b, triangleColor.a);
+
+    // Triangle points (downward facing)
+    int triangleBaseX = x + width - 20; // Base of the triangle 20px from the right
+    int triangleBaseY = y + height / 2;
+    int triangleSize = 6; // Size of the triangle (half of the width or height)
+
+    SDL_Point topPoint = {triangleBaseX, triangleBaseY + triangleSize};
+    SDL_Point leftPoint = {triangleBaseX - triangleSize, triangleBaseY - triangleSize};
+    SDL_Point rightPoint = {triangleBaseX + triangleSize, triangleBaseY - triangleSize};
+
+    // Fill the triangle using horizontal lines
+    for (int row = 0; row <= triangleSize * 2; ++row)
+    {
+        int y = triangleBaseY - triangleSize + row;
+        int startX = triangleBaseX - (triangleSize - row / 2);
+        int endX = triangleBaseX + (triangleSize - row / 2);
+        SDL_RenderDrawLine(renderer, startX, y, endX, y);
+    }
+
+    // Draw the selected option text
+    if (font && !options.empty())
+    {
+        SDL_Color textColor = {255, 255, 255, 255}; // White text
+        SDL_Surface *textSurface = TTF_RenderText_Solid(font, options[selectedIndex].c_str(), textColor);
+        if (textSurface)
+        {
+            SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
             int textWidth = textSurface->w;
             int textHeight = textSurface->h;
             SDL_FreeSurface(textSurface);
-            SDL_Rect textRect = { x + (width - textWidth) / 2, y + (height - textHeight) / 2, textWidth, textHeight };
+
+            SDL_Rect textRect = {x + 10, y + (height - textHeight) / 2, textWidth, textHeight};
             SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
             SDL_DestroyTexture(textTexture);
         }
     }
 
-    // Draw dropdown list if visible
-    if (dropdownListVisible) {
-        for (int i = 0; i < dropdownList->size(); i++) {
-            SDL_Rect dropdownRect = { x, y + height + i * 20, width, 20 };
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-            SDL_RenderFillRect(renderer, &dropdownRect);
-
-            // Draw dropdown text
-            if (font) {
-                SDL_Color dropdownTextColor = { 0, 0, 0, 255 }; // Black color for the text
-                SDL_Surface* dropdownTextSurface = TTF_RenderText_Solid(font, (*dropdownList)[i].c_str(), dropdownTextColor);
-                if (dropdownTextSurface != nullptr) {
-                    SDL_Texture* dropdownTextTexture = SDL_CreateTextureFromSurface(renderer, dropdownTextSurface);
-                    int dropdownTextWidth = dropdownTextSurface->w;
-                    int dropdownTextHeight = dropdownTextSurface->h;
-                    SDL_FreeSurface(dropdownTextSurface);
-
-                    // Center the text within the dropdown
-                    SDL_Rect dropdownTextRect = { x + (width - dropdownTextWidth) / 2, y + height + i * 20 + (20 - dropdownTextHeight) / 2, dropdownTextWidth, dropdownTextHeight };
-                    SDL_RenderCopy(renderer, dropdownTextTexture, nullptr, &dropdownTextRect);
-                    SDL_DestroyTexture(dropdownTextTexture);
-                }
-            }
+    // If open, draw the dropdown
+    if (isOpen)
+    {
+        for (size_t i = 0; i < options.size(); ++i)
+        {
+            int optionHeight = height; // Each option's height is the same as the main rectangle
+            drawOption(renderer, i, x, y + (i + 1) * optionHeight, width, optionHeight, i == selectedIndex);
         }
     }
 }
 
-void Combobox::handleEvent(const SDL_Event& event)
-{
-    if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN) {
-        int mouseX = event.motion.x;
-        int mouseY = event.motion.y;
-        bool inside = (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height);
+void Combobox::handleEvent(const SDL_Event& event) {
+    if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+        int mouseX = event.button.x;
+        int mouseY = event.button.y;
 
-        if (inside) {
-            isHovered = true;
-            if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                dropdownListVisible = !dropdownListVisible;
+        if (isOpen) {
+            // Check if clicking inside the dropdown or the main rectangle
+            bool clickedInsideMain = mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height;
+            bool clickedInsideDropdown = false;
+
+            if (!clickedInsideMain) {
+                // Check each dropdown option
+                for (size_t i = 0; i < options.size(); ++i) {
+                    int optionY = y + (i + 1) * height;
+                    if (mouseX > x && mouseX < x + width && mouseY > optionY && mouseY < optionY + height) {
+                        clickedInsideDropdown = true;
+                        selectedIndex = i; // Update selected index
+                        isOpen = false;    // Close dropdown
+                        if (onSelectionChange) {
+                            onSelectionChange(options[selectedIndex]);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // If clicked outside, close the dropdown
+            if (!clickedInsideMain && !clickedInsideDropdown) {
+                isOpen = false;
             }
         } else {
-            isHovered = false;
-            dropdownListVisible = false;
-        }
-
-        // Handle dropdown list click
-        if (dropdownListVisible) {
-            for (int i = 0; i < dropdownList->size(); i++) {
-                SDL_Rect dropdownRect = { x, y + height + i * 20, width, 20 };
-                bool insideDropdown = (mouseX > dropdownRect.x && mouseX < dropdownRect.x + dropdownRect.w && mouseY > dropdownRect.y && mouseY < dropdownRect.y + dropdownRect.h);
-
-                if (insideDropdown && event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-                    onClick((*dropdownList)[i]);
-                }
+            // If dropdown is closed, check if clicking on the main rectangle to open it
+            if (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height) {
+                isOpen = true; // Open dropdown
             }
         }
     }
 }
 
-void Combobox::addItem(const std::string& item)
-{
-    dropdownList->push_back(item);
-    dropdownListVisible = true;
-}
 
-void Combobox::clearItems()
+void Combobox::drawOption(SDL_Renderer *renderer, int index, int optionX, int optionY, int optionWidth, int optionHeight, bool isHovered)
 {
-    dropdownList->clear();
-    dropdownListVisible = false;
-}
+    SDL_Rect optionRect = {optionX, optionY, optionWidth, optionHeight};
+    SDL_Color bgColor = isHovered ? SDL_Color{112, 220, 112, 255} : SDL_Color{47, 211, 71, 255};
+    SDL_SetRenderDrawColor(renderer, bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+    SDL_RenderFillRect(renderer, &optionRect);
 
-void Combobox::addItems(const std::vector<std::string>& items)
-{
-    for (const auto& item : items) {
-        addItem(item);
+    // Render option text
+    if (font && index < options.size())
+    {
+        SDL_Color textColor = {255, 255, 255, 255}; // White text
+        SDL_Surface *textSurface = TTF_RenderText_Solid(font, options[index].c_str(), textColor);
+        if (textSurface)
+        {
+            SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+            int textWidth = textSurface->w;
+            int textHeight = textSurface->h;
+            SDL_FreeSurface(textSurface);
+
+            SDL_Rect textRect = {optionX + 10, optionY + (optionHeight - textHeight) / 2, textWidth, textHeight};
+            SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+            SDL_DestroyTexture(textTexture);
+        }
     }
 }

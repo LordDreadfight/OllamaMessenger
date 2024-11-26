@@ -6,6 +6,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "pbollama/OllamaFunction.h"
 #include "pbui/Combobox.h"
+#include <vector>
 
 int main(int argc, char* argv[])
 {
@@ -20,8 +21,9 @@ int main(int argc, char* argv[])
     button2.setOnClick([]() {
 
     });
-    Combobox combi(270, 10, 250, 50, "boxl");
-    combi.addItems({"Item 1", "Item 2", "Item 3"});
+
+    std::vector<std::string> itemslist = {"test","stest","test3"};
+    Combobox combi(170, 10, 250, 50, itemslist);
 
     window.addElement(&button);
     window.addElement(&button2);

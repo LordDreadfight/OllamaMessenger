@@ -35,7 +35,7 @@ void Window::handleEvents()
 
 void Window::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 36, 36, 24, 255);
     SDL_RenderClear(renderer);
 
     for (auto& element : elements) {
