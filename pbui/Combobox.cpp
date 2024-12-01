@@ -1,7 +1,7 @@
 #include "Combobox.h"
 #include <iostream>
 
-Combobox::Combobox(int x, int y, int width, int height, const std::vector<std::string> &options)
+Combobox::Combobox(short int x, short int y, unsigned short int width, unsigned short int height, const std::vector<std::string> &options)
     : x(x), y(y), width(width), height(height), options(options), selectedIndex(0), isOpen(false), font(nullptr)
 {
     // Load the font
@@ -26,13 +26,13 @@ void Combobox::draw(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &mainRect);
 
     // Draw the dropdown indicator (filled triangle)
-    SDL_Color triangleColor = {255, 255, 255, 255}; // White color for the triangle
+    SDL_Color triangleColor = {0, 0, 0, 255}; // Black color for the triangle
     SDL_SetRenderDrawColor(renderer, triangleColor.r, triangleColor.g, triangleColor.b, triangleColor.a);
 
     // Triangle points (downward facing)
-    int triangleBaseX = x + width - 20; // Base of the triangle 20px from the right
-    int triangleBaseY = y + height / 2;
-    int triangleSize = 6; // Size of the triangle (half of the width or height)
+    short int triangleBaseX = x + width - 20; // Base of the triangle 20px from the right
+    short int triangleBaseY = y + height / 2;
+    short int triangleSize = 6; // Size of the triangle (half of the width or height)
 
     SDL_Point topPoint = {triangleBaseX, triangleBaseY + triangleSize};
     SDL_Point leftPoint = {triangleBaseX - triangleSize, triangleBaseY - triangleSize};
@@ -50,7 +50,7 @@ void Combobox::draw(SDL_Renderer *renderer)
     // Draw the selected option text
     if (font && !options.empty())
     {
-        SDL_Color textColor = {255, 255, 255, 255}; // White text
+        SDL_Color textColor = {0, 0, 0, 255}; // Black text
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, options[selectedIndex].c_str(), textColor);
         if (textSurface)
         {
@@ -116,7 +116,7 @@ void Combobox::handleEvent(const SDL_Event& event) {
 }
 
 
-void Combobox::drawOption(SDL_Renderer *renderer, int index, int optionX, int optionY, int optionWidth, int optionHeight, bool isHovered)
+void Combobox::drawOption(SDL_Renderer *renderer, short int index, short int optionX, short int optionY, short int optionWidth, short int optionHeight, bool isHovered)
 {
     SDL_Rect optionRect = {optionX, optionY, optionWidth, optionHeight};
     SDL_Color bgColor = isHovered ? SDL_Color{112, 220, 112, 255} : SDL_Color{47, 211, 71, 255};
@@ -126,7 +126,7 @@ void Combobox::drawOption(SDL_Renderer *renderer, int index, int optionX, int op
     // Render option text
     if (font && index < options.size())
     {
-        SDL_Color textColor = {255, 255, 255, 255}; // White text
+        SDL_Color textColor = {0, 0, 0, 255}; // Black text
         SDL_Surface *textSurface = TTF_RenderText_Solid(font, options[index].c_str(), textColor);
         if (textSurface)
         {

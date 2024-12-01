@@ -17,10 +17,13 @@ int main(int argc, char* argv[])
     button.setOnClick([]() {
         startOllamaService();
     });
+    button.setTooltip("Starts the ollama service");
+
     Button button2(10, 70, 150, 50, "me2");
     button2.setOnClick([]() {
 
     });
+    button2.setTooltip("Starts nothing currently");
 
     std::vector<std::string> itemslist = {"test","stest","test3"};
     Combobox combi(170, 10, 250, 50, itemslist);

@@ -7,15 +7,16 @@
 #include <vector>
 
 struct Combobox : public UIElement {
-    Combobox(int x, int y, int width, int height, const std::vector<std::string>& options);
+    Combobox(short int x, short int y, unsigned short int width, unsigned short int height, const std::vector<std::string>& options);
     void setOnSelectionChange(std::function<void(const std::string&)> callback);
     void draw(SDL_Renderer* renderer) override;
     void handleEvent(const SDL_Event& event) override;
-    int x, y, width, height;
-    std::vector<std::string> options; // List of options
-    int selectedIndex;                // Index of the currently selected option
-    bool isOpen;                      // Whether the dropdown is open
+    short int x, y;
+    unsigned short int width, height;
+    std::vector<std::string> options;
+    int selectedIndex;                
+    bool isOpen;                     
     std::function<void(const std::string&)> onSelectionChange;
     TTF_Font* font;
-    void drawOption(SDL_Renderer* renderer, int index, int optionX, int optionY, int optionWidth, int optionHeight, bool isHovered);
+    void drawOption(SDL_Renderer* renderer, short int index, short int optionX, short int optionY, short int optionWidth, short int optionHeight, bool isHovered);
 };
