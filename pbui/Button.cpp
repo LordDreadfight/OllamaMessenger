@@ -29,8 +29,8 @@ void Button::draw(SDL_Renderer* renderer) {
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
         if (textSurface) {
             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-            int textWidth = textSurface->w;
-            int textHeight = textSurface->h;
+            unsigned short int textWidth = textSurface->w;
+            unsigned short int textHeight = textSurface->h;
             SDL_FreeSurface(textSurface);
 
             SDL_Rect textRect = {x + (width - textWidth) / 2, y + (height - textHeight) / 2, textWidth, textHeight};
@@ -43,10 +43,12 @@ void Button::draw(SDL_Renderer* renderer) {
         SDL_Surface* tooltipSurface = TTF_RenderText_Solid(font, tooltipText.c_str(), tooltipColor);
         if (tooltipSurface) {
             SDL_Texture* tooltipTexture = SDL_CreateTextureFromSurface(renderer, tooltipSurface);
-            int tooltipWidth = tooltipSurface->w;
-            int tooltipHeight = tooltipSurface->h;
+            unsigned short int tooltipWidth = tooltipSurface->w;
+            unsigned short int tooltipHeight = tooltipSurface->h;
             SDL_FreeSurface(tooltipSurface);
-            SDL_Rect tooltipRect = {x + width + 10, y, tooltipWidth, tooltipHeight};
+            int mousex, mousey;
+            SDL_GetMouseState(&mousex, &mousey);
+            SDL_Rect tooltipRect = {x + mousex + 10, mousey, tooltipWidth, tooltipHeight};
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_Rect bgRect = {tooltipRect.x - 5, tooltipRect.y - 5, tooltipWidth + 10, tooltipHeight + 10};
             SDL_RenderFillRect(renderer, &bgRect);

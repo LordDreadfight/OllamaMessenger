@@ -28,9 +28,9 @@ int main(int argc, char* argv[])
     std::vector<std::string> itemslist = {"test","stest","test3"};
     Combobox combi(170, 10, 250, 50, itemslist);
 
+    window.addElement(&combi);
     window.addElement(&button);
     window.addElement(&button2);
-    window.addElement(&combi);
     window.mainLoop();
     TTF_Quit();
     SDL_Quit();
