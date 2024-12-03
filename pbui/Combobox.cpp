@@ -131,10 +131,9 @@ void Combobox::drawOption(SDL_Renderer *renderer, short int index, short int opt
         if (textSurface)
         {
             SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-            int textWidth = textSurface->w;
-            int textHeight = textSurface->h;
+            short int textWidth = textSurface->w;
+            short int textHeight = textSurface->h;
             SDL_FreeSurface(textSurface);
-
             SDL_Rect textRect = {optionX + 10, optionY + (optionHeight - textHeight) / 2, textWidth, textHeight};
             SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
             SDL_DestroyTexture(textTexture);

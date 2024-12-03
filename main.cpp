@@ -29,8 +29,8 @@ int main(int argc, char* argv[])
     Combobox combi(170, 10, 250, 50, itemslist);
 
     window.addElement(&combi);
-    window.addElement(&button);
     window.addElement(&button2);
+    window.addElement(&button);
     window.mainLoop();
     TTF_Quit();
     SDL_Quit();
