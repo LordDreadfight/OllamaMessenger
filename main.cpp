@@ -6,6 +6,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "pbollama/OllamaFunction.h"
 #include "pbui/Combobox.h"
+#include "pbui/Label.h"
 #include <vector>
 
 int main(int argc, char* argv[])
@@ -26,9 +27,10 @@ int main(int argc, char* argv[])
     button2.setTooltip("Starts nothing currently");
 
     std::vector<std::string> itemslist = {"test","stest","test3"};
-    Combobox combi(170, 10, 250, 50, itemslist);
-
+    Combobox combi(170, 30, 250, 50, itemslist);
+    Label fabel(170, 5, 250, 25, "Des is a combobox mit label drüber");
     window.addElement(&combi);
+    window.addElement(&fabel);
     window.addElement(&button2);
     window.addElement(&button);
     window.mainLoop();

@@ -6,7 +6,6 @@
 
 struct Label : public UIElement {
     Label(short int x, short int y, unsigned short int width, unsigned short int height, const std::string& text);
-    ~Label();
 
     void draw(SDL_Renderer* renderer) override;
     void handleEvent(const SDL_Event& event) override;
