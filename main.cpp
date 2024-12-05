@@ -13,14 +13,19 @@ int main(int argc, char* argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
     Window window("Ollama Messenger", 1280, 720);
     Button button(10, 10, 150, 50, "Start ollama Server");
     button.setOnClick([]() {
         startOllamaService();
     });
+<<<<<<< Updated upstream
     button.setTooltip("Starts the ollama service");
 
     Button button2(10, 70, 150, 50, "me2");
+=======
+    Button button2(10, 70, 150, 50, "Button that definitely does something");
+>>>>>>> Stashed changes
     button2.setOnClick([]() {
 
     });
