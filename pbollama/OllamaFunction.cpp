@@ -53,3 +53,7 @@ int stopOllamaService(){
     return system("killall ollama");
 };
 
+
+int saveOllamaModel(){
+    return saveSetting("settings.json", "modelname", "megamodel");
+};

@@ -19,15 +19,9 @@ int main(int argc, char* argv[])
     button.setOnClick([]() {
         startOllamaService();
     });
-<<<<<<< Updated upstream
-    button.setTooltip("Starts the ollama service");
-
-    Button button2(10, 70, 150, 50, "me2");
-=======
     Button button2(10, 70, 150, 50, "Button that definitely does something");
->>>>>>> Stashed changes
     button2.setOnClick([]() {
-
+        saveOllamaModel();
     });
     button2.setTooltip("Starts nothing currently");
 

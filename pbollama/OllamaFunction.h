@@ -6,3 +6,4 @@
 int startOllamaService();
 int loadOllamaModel(std::string& modelname);
 int stopOllamaService();
+int saveOllamaModel();
