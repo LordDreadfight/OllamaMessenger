@@ -29,8 +29,8 @@ std::string loadSetting(const std::string& file, const std::string& key)
 }
 
 int startOllamaService(){
-    return system("/home/beta/Desktop/aai/run.sh"); 
-};
+    return system("cd /home/beta/Desktop/aai && source myenv/bin/activate && python3 test.py");
+}
 
 int loadOllamaModel( std::string& modelname){
     std::string Model = loadSetting("settings.json", "modelname");

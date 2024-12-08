@@ -7,6 +7,7 @@
 #include "pbollama/OllamaFunction.h"
 #include "pbui/Combobox.h"
 #include "pbui/Label.h"
+#include "pbui/TextInput.h"
 #include <vector>
 
 int main(int argc, char* argv[])
@@ -27,9 +28,14 @@ int main(int argc, char* argv[])
 
     std::vector<std::string> itemslist = {"test","stest","test3"};
     Combobox combi(170, 30, 250, 50, itemslist);
-    Label fabel(170, 5, 250, 25, "Des is a combobox mit label drüber");
+    Label fabel(170, 5, 250, 25, "Des is a combobox mit label");
+    TextInput textinput(170, 100, 250, 50);
+    textinput.setPlaceholder("Type message here....");
+    
+    
     window.addElement(&combi);
     window.addElement(&fabel);
+    window.addElement(&textinput);
     window.addElement(&button2);
     window.addElement(&button);
     window.mainLoop();

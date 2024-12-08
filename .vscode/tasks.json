@@ -58,7 +58,8 @@
                 "${workspaceFolder}/pbollama/OllamaFunction.cpp",
                 "${workspaceFolder}/pbui/Combobox.cpp",
                 "${workspaceFolder}/pbui/Window.cpp", 
-                "${workspaceFolder}/pbui/Label.cpp"
+                "${workspaceFolder}/pbui/Label.cpp",
+                "${workspaceFolder}/pbui/TextInput.cpp"
             ],
             "group": {
                 "kind": "build",
