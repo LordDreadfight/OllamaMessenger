@@ -20,21 +20,19 @@ int main(int argc, char* argv[])
     button.setOnClick([]() {
         startOllamaService();
     });
-    Button button2(10, 70, 150, 50, "Button that definitely does something");
+    Button button2(10, 70, 150, 50, "Button mit funktion");
     button2.setOnClick([]() {
-        saveOllamaModel();
+        SaveSetting("mega", "nice");
     });
     button2.setTooltip("Starts nothing currently");
 
     std::vector<std::string> itemslist = {"test","stest","test3"};
-    Combobox combi(170, 30, 250, 50, itemslist);
-    Label fabel(170, 5, 250, 25, "Des is a combobox mit label");
-    TextInput textinput(170, 100, 250, 50);
+    Combobox combi(170, 10, 250, 50, itemslist);
+    TextInput textinput(170, 70, 250, 50);
     textinput.setPlaceholder("Type message here....");
     
     
     window.addElement(&combi);
-    window.addElement(&fabel);
     window.addElement(&textinput);
     window.addElement(&button2);
     window.addElement(&button);

@@ -1,14 +1,17 @@
 #include "OllamaFunction.h"
 #include "ollama.hpp"
+#include <iostream>
+#include <fstream>
+#include <filesystem>
 #include "../json.hpp"
 
-using json = nlohmann::json;
+using namespace std;
 
-int saveSetting(const std::string& file, const std::string& key, const std::string& value)
+/*int saveSetting(const std::string &file, const std::string &key, const std::string &value)
 {
     std::ifstream i(file);
     json j;
-    i>> j;
+    i >> j;
     j[key] = value;
     std::ofstream o(file);
     if (!o.is_open())
@@ -20,40 +23,83 @@ int saveSetting(const std::string& file, const std::string& key, const std::stri
     return 0;
 }
 
-std::string loadSetting(const std::string& file, const std::string& key)
+std::string loadSetting(const std::string &file, const std::string &key)
 {
     std::ifstream i(file);
     json j;
     i >> j;
     return j[key];
 }
-
-int startOllamaService(){
+*/
+int startOllamaService()
+{
     return system("cd /home/beta/Desktop/aai && source myenv/bin/activate && python3 test.py");
 }
 
-int loadOllamaModel( std::string& modelname){
-    std::string Model = loadSetting("settings.json", "modelname");
+int loadOllamaModel(string &modelname)
+{
+    string Model = /*loadSetting("settings.json", "modelname");*/ "sdfdsfs";
     if (modelname == "" && Model != "")
     {
         ollama::load_model(Model);
         return 0;
-    }else if (modelname >= "")
+    }
+    else if (modelname >= "")
     {
         ollama::load_model(modelname);
         return 0;
-    }else if (modelname == "" && Model == "")
+    }
+    else if (modelname == "" && Model == "")
     {
         return 1;
     }
     return 1;
 };
 
-int stopOllamaService(){
+int stopOllamaService()
+{
     return system("killall ollama");
 };
 
-
-int saveOllamaModel(){
-    return saveSetting("settings.json", "modelname", "megamodel");
+int saveOllamaModel()
+{
+    // return saveSetting("settings.json", "modelname", "megamodel");
+    return 1;
 };
+
+void jsonCreateFile(string &file)
+{
+    try
+    {
+        ofstream outfile(file);
+        outfile << "";
+        outfile.close();
+    }
+    catch (const exception &e)
+    {
+        cerr << e.what() << '\n';
+    }
+};
+
+void SaveSetting(const std::string &key, const std::string &val)
+{
+    string filename = "settings.json";
+    string path = filesystem::current_path().string();
+    string file = path + "/" + filename;
+    nlohmann::json json;
+
+    if (access(file.c_str(), F_OK) != -1)
+    {
+        std::ifstream i(file);
+        i >> json;
+        json[key] = val;
+        std::ofstream o(file);
+        if (!o.is_open()){}
+        o << json.dump(4);
+        o.close();
+    }
+    else
+    {
+        jsonCreateFile(file);
+    }
+}
