@@ -8,6 +8,7 @@
 #include "pbui/Combobox.h"
 #include "pbui/Label.h"
 #include "pbui/TextInput.h"
+#include "pbui/Listbox.h"
 #include <vector>
 
 int main(int argc, char* argv[])
@@ -17,12 +18,10 @@ int main(int argc, char* argv[])
     SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" );
     Window window("Ollama Messenger", 1280, 720);
     Button button(10, 10, 150, 50, "Start ollama Server");
-    button.setOnClick([]() {
-        startOllamaService();
-    });
+    button.setOnClick([]() {});
     Button button2(10, 70, 150, 50, "Button mit funktion");
     button2.setOnClick([]() {
-        SaveSetting("mega", "nice");
+        //SaveSetting("yuck","fou");
     });
     button2.setTooltip("Starts nothing currently");
 

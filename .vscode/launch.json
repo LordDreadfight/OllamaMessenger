@@ -39,7 +39,7 @@
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/home/beta/Documents/GitHub/OllamaMessenger",
-      "program": "/home/beta/Documents/GitHub/OllamaMessenger/build/Debug/outDebug",
+      "program": "/home/beta/Documents/GitHub/OllamaMessenger/OllamaMessenger",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -6,5 +6,11 @@
 -iconbutton
 -json und unjson testen
 -rechte für run.sh anschauen oder umgehen
--
-
+-checkboxes
+-radiobuttons
+-toggle switches
+-sliders
+-tooltips
+-datatables
+-messagebox
+-progressbar

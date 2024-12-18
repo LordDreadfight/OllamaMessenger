@@ -1,11 +1,13 @@
 #include "OllamaFunction.h"
-#include "ollama.hpp"
+//#include "ollama.hpp"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "../json.hpp"
+#include "json.hpp"
 
 using namespace std;
+
+using json = nlohmann::json;
 
 /*int saveSetting(const std::string &file, const std::string &key, const std::string &value)
 {
@@ -36,9 +38,9 @@ int startOllamaService()
     return system("cd /home/beta/Desktop/aai && source myenv/bin/activate && python3 test.py");
 }
 
-int loadOllamaModel(string &modelname)
+/*int loadOllamaModel(string &modelname)
 {
-    string Model = /*loadSetting("settings.json", "modelname");*/ "sdfdsfs";
+    string Model = loadSetting("settings.json", "modelname");
     if (modelname == "" && Model != "")
     {
         ollama::load_model(Model);
@@ -54,7 +56,7 @@ int loadOllamaModel(string &modelname)
         return 1;
     }
     return 1;
-};
+};*/
 
 int stopOllamaService()
 {
@@ -81,12 +83,12 @@ void jsonCreateFile(string &file)
     }
 };
 
-void SaveSetting(const std::string &key, const std::string &val)
+/*void SaveSetting(const std::string &key, const std::string &val)
 {
     string filename = "settings.json";
     string path = filesystem::current_path().string();
     string file = path + "/" + filename;
-    nlohmann::json json;
+    json json;
 
     if (access(file.c_str(), F_OK) != -1)
     {
@@ -102,4 +104,4 @@ void SaveSetting(const std::string &key, const std::string &val)
     {
         jsonCreateFile(file);
     }
-}
+}*/
