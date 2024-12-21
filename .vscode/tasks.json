@@ -59,7 +59,8 @@
                 "${workspaceFolder}/pbui/Combobox.cpp",
                 "${workspaceFolder}/pbui/Window.cpp", 
                 "${workspaceFolder}/pbui/Label.cpp",
-                "${workspaceFolder}/pbui/TextInput.cpp"
+                "${workspaceFolder}/pbui/TextInput.cpp",
+                "${workspaceFolder}/pbui/Listview.cpp"
             ],
             "group": {
                 "kind": "build",
