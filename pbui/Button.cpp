@@ -2,7 +2,7 @@
 #include <iostream>
 
 Button::Button(short int x, short int y, unsigned short int width, unsigned short int height, const std::string& text)
-    : x(x), y(y), width(width), height(height), text(text), isHovered(false)
+    : x(x), y(y), width(width), height(height), text(text), isHovered(false), hoverStartTime(0), showTooltip(false)
 {
     onClick = []() {};
     font = TTF_OpenFont("Ubuntu-Regular.ttf", 14);
@@ -24,6 +24,7 @@ void Button::draw(SDL_Renderer* renderer) {
     SDL_Color buttonColor = isHovered ? SDL_Color{112, 220, 112, 255} : SDL_Color{47, 211, 71, 255};
     SDL_SetRenderDrawColor(renderer, buttonColor.r, buttonColor.g, buttonColor.b, buttonColor.a);
     SDL_RenderFillRect(renderer, &rect);
+    
     if (font) {
         SDL_Color textColor = {0, 0, 0, 255};
         SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
@@ -38,7 +39,8 @@ void Button::draw(SDL_Renderer* renderer) {
             SDL_DestroyTexture(textTexture);
         }
     }
-    if (isHovered && !tooltipText.empty() && font) {
+
+    if (showTooltip && !tooltipText.empty() && font) {
         SDL_Color tooltipColor = {255, 255, 255, 255};
         SDL_Surface* tooltipSurface = TTF_RenderText_Solid(font, tooltipText.c_str(), tooltipColor);
         if (tooltipSurface) {
@@ -65,12 +67,22 @@ void Button::handleEvent(const SDL_Event& event) {
         bool inside = (mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + height);
 
         if (inside) {
-            isHovered = true;
+            if (!isHovered) {
+                // Just entered the button
+                isHovered = true;
+                hoverStartTime = SDL_GetTicks();
+                showTooltip = false;
+            } else if (!showTooltip && SDL_GetTicks() - hoverStartTime > 250) {
+                // Show tooltip after 250ms of initial hover
+                showTooltip = true;
+            }
+            
             if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
                 onClick();
             }
         } else {
             isHovered = false;
+            showTooltip = false;
         }
     }
 }

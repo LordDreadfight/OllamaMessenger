@@ -12,11 +12,16 @@ struct Button : public UIElement {
     void draw(SDL_Renderer* renderer) override;
     void handleEvent(const SDL_Event& event) override;
 
-    short int x, y;
-    unsigned short int width, height;
-    std::string text;
-    std::function<void()> onClick;
-    bool isHovered;
-    TTF_Font* font;
-    std::string tooltipText;
+    private:
+        short int x;
+        short int y;
+        unsigned short int width;
+        unsigned short int height;
+        std::string text;
+        std::string tooltipText;
+        bool isHovered;
+        Uint32 hoverStartTime;
+        bool showTooltip;
+        TTF_Font* font;
+        std::function<void()> onClick;
 };
